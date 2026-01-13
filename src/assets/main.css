@@ -155,7 +155,7 @@ h2.section-title {
 #contact p {
   font-family: 'Inter', sans-serif;
   font-size: 24px;
-  color: #8B949E;
+  color: #FFA28B;
 }
 
 #contact input,
@@ -163,7 +163,7 @@ h2.section-title {
   width: 100%;
   background: #161B22;
   border: 1px solid #30363D;
-  color: #fff;
+  color: black;
   font-family: 'Inter', sans-serif;
   font-weight: 600;
   font-size: 20px;

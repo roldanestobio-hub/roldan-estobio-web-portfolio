@@ -1,3 +1,60 @@
+<script setup>
+import { ref, onMounted } from "vue";
+import {Notyf} from "notyf"
+
+const WEB3FORMS_ACCESS_KEY = "632030ee-135e-46c2-9a49-99df3dcbe05a";
+const subject = ref("New Contact from Portfolio")
+const name = ref("")
+const email = ref("")
+const message = ref("")
+
+const isLoading = ref(false)
+
+const notyf = new Notyf();
+
+const submitForm = async () => {
+
+	isLoading.value = true;
+	try {
+
+  	const response = await fetch("https://api.web3forms.com/submit", {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+      Accept: "application/json",
+    },
+    body: JSON.stringify({
+      access_key: WEB3FORMS_ACCESS_KEY,
+      subject: subject.value,
+      name: name.value,
+      email: email.value,
+      message: message.value,
+    }),
+  });
+
+  const result = await response.json();
+
+  if (result.success) {
+    console.log(result);
+    isLoading.value = false;
+    notyf.success("Message Success!")
+
+    name.value = ""
+    email.value = ""
+    message.value = ""
+  }
+
+  }catch(error){
+
+  	console.log(error)
+
+  	isLoading.value = false;
+  	notyf.error("Failed to send a message.")
+	}
+}
+
+</script>
+
 
 <template>
 
@@ -23,21 +80,26 @@
 	          <h2 class="mb-5">Contact Us</h2>
 	          <p>Let’s connect.</p>
 	        </div>
-	        <form action="">
+
+	        <form @submit.prevent="submitForm">
+
 	          <div class="mb-3" id="name">
 	            <label for="name" class="form-label">Name</label>
-	            <input type="text" class="form-control bg-white" id="name" placeholder="Your name"/>
+	            <input v-model="name" type="text" class="form-control bg-white" id="name" placeholder="Your name" required />
 	          </div>
 	          <div class="mb-3" id="email">
-	            <label for="email" class="form-label">Email address</label>
-	            <input type="email" class="form-control bg-white" id="email" placeholder="me@email.com"/>
+	            <label for="email" class="form-label" required>Email address</label> 
+	            <input v-model="email" type="email" class="form-control bg-white" id="email" placeholder="me@email.com" required />
 	          </div>
 	          <div class="mb-3" id="message">
-	            <label for="message" class="form-label">Message</label>
-	            <textarea class="form-control bg-white" id="message" rows="6"></textarea>
+	            <label for="message" class="form-label" required>Message</label>
+	            <textarea v-model="message" class="form-control bg-white" id="message" rows="6" required></textarea>
 	          </div>
-	          <button type="button" class="mb-3" id="button">Submit</button>
+
+	          <button type="submit" class="submit-btn pl-5 pr-5 mb-3" id="button" :disabled="isLoading" >{{isLoading ? "Sending..." : "Submit"}}</button>
+
 	        </form>
+
 	      </div>
 	    </div>
 	  </div>
