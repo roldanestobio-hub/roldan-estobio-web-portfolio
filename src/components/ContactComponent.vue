@@ -13,7 +13,7 @@ const isLoading = ref(false)
 const notyf = new Notyf();
 
 // configurations needed for recaptcha
-const SITE_KEY="6LfiEUosAAAAAJbtYg5QjATsZPhzyVCp1GzsbQj3";
+const SITE_KEY="6LcdFUosAAAAANljFMdPhnOEwlXkKELgjxs2jTYR";
 const recaptchaContainer = ref(null);
 const recaptchaWidgetId = ref(null);
 const recaptchaToken = ref('');
